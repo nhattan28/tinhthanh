@@ -4,110 +4,207 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tra Cứu Tỉnh Thành Việt Nam</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6b48ff, #00ddeb);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow-x: hidden;
     }
+
     .container {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       width: 90%;
-      max-width: 600px;
+      max-width: 700px;
       text-align: center;
+      transform: translateY(-10px);
+      transition: transform 0.3s ease;
     }
+
+    .container:hover {
+      transform: translateY(-5px);
+    }
+
     h1 {
-      color: #2c3e50;
-      margin-bottom: 20px;
-      font-size: 2em;
+      color: #1e2a44;
+      font-size: 2.2em;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
+
     .search-box {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
       position: relative;
     }
+
     #provinceInput {
-      padding: 12px;
+      padding: 15px 20px;
       width: 70%;
-      max-width: 300px;
-      border: 2px solid #3498db;
-      border-radius: 25px;
-      font-size: 1em;
-      outline: none;
-      transition: border-color 0.3s;
-    }
-    #provinceInput:focus {
-      border-color: #2980b9;
-    }
-    #searchButton {
-      padding: 12px 25px;
+      max-width: 400px;
       border: none;
-      border-radius: 25px;
-      background: #3498db;
+      border-radius: 30px;
+      font-size: 1.1em;
+      background: #f0f4f8;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    #provinceInput:focus {
+      background: #fff;
+      box-shadow: 0 0 10px rgba(107, 72, 255, 0.3);
+    }
+
+    #searchButton {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #6b48ff, #00ddeb);
       color: white;
-      font-size: 1em;
+      font-size: 1.1em;
       cursor: pointer;
-      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
     }
+
     #searchButton:hover {
-      background: #2980b9;
+      background: linear-gradient(90deg, #00ddeb, #6b48ff);
+      box-shadow: 0 5px 15px rgba(107, 72, 255, 0.4);
+      transform: translateY(-2px);
     }
+
     #result {
       margin-top: 20px;
-      padding: 15px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       display: none;
       text-align: left;
+      animation: fadeIn 0.5s ease;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .info {
       margin: 10px 0;
-      padding: 10px;
-      background: #f9f9f9;
-      border-radius: 5px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 10px;
+      font-size: 1em;
+      transition: transform 0.3s ease;
     }
+
+    .info:hover {
+      transform: translateX(5px);
+      background: #e6f0ff;
+    }
+
+    .info strong {
+      color: #1e2a44;
+    }
+
     .info a {
-      color: #2980b9;
+      color: #6b48ff;
       text-decoration: none;
       font-weight: bold;
+      transition: color 0.3s;
     }
+
     .info a:hover {
+      color: #00ddeb;
       text-decoration: underline;
     }
+
     .autocomplete-items {
       position: absolute;
-      border: 1px solid #d4d4d4;
-      border-bottom: none;
-      border-top: none;
+      border: none;
       z-index: 99;
       top: 100%;
       left: 15%;
       right: 15%;
-      max-width: 300px;
-      background-color: white;
-      border-radius: 0 0 5px 5px;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       max-height: 200px;
       overflow-y: auto;
       display: none;
+      animation: slideIn 0.3s ease;
     }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .autocomplete-items div {
-      padding: 10px;
+      padding: 12px 20px;
       cursor: pointer;
-      border-bottom: 1px solid #d4d4d4;
+      font-size: 1em;
+      border-bottom: 1px solid #f0f4f8;
+      transition: background 0.3s;
     }
+
     .autocomplete-items div:hover {
-      background-color: #e9e9e9;
+      background: #e6f0ff;
+      color: #6b48ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        width: 95%;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      .search-box {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      #provinceInput {
+        width: 100%;
+      }
+
+      #searchButton {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .autocomplete-items {
+        left: 0;
+        right: 0;
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -116,7 +213,7 @@
     <h1>Tra Cứu Tỉnh Thành Việt Nam</h1>
     <div class="search-box">
       <input type="text" id="provinceInput" placeholder="Nhập tên tỉnh/thành phố..." onkeyup="autocomplete()" onkeypress="if(event.key === 'Enter') searchProvince()" />
-      <button id="searchButton" onclick="searchProvince()">Tìm kiếm</button>
+      <button id="searchButton" onclick="searchProvince()"><i class="fas fa-search"></i> Tìm kiếm</button>
     </div>
     <div id="result">
       <div class="info"><strong>Khu vực:</strong> <span id="region"></span></div>
@@ -129,7 +226,6 @@
 
   <script>
     const provinces = {
-      // Miền Bắc
       "Hòa Bình": { region: "Tây Bắc Bộ", domain: "https://hoabinh.gov.vn", newName: "Phú Thọ", adminCenter: "Phú Thọ" },
       "Sơn La": { region: "Tây Bắc Bộ", domain: "https://sonla.gov.vn", newName: "Sơn La", adminCenter: "Sơn La" },
       "Điện Biên": { region: "Tây Bắc Bộ", domain: "https://dienbien.gov.vn", newName: "Điện Biên", adminCenter: "Điện Biên" },
@@ -155,7 +251,6 @@
       "Thái Bình": { region: "Đồng Bằng Sông Hồng", domain: "https://thaibinh.gov.vn", newName: "Hưng Yên", adminCenter: "Hưng Yên" },
       "Vĩnh Phúc": { region: "Đồng Bằng Sông Hồng", domain: "https://vinhphuc.gov.vn", newName: "Phú Thọ", adminCenter: "Phú Thọ" },
       "Ninh Bình": { region: "Đồng Bằng Sông Hồng", domain: "https://ninhbinh.gov.vn", newName: "Ninh Bình", adminCenter: "Ninh Bình" },
-      // Miền Trung
       "Thanh Hóa": { region: "Bắc Trung Bộ", domain: "https://thanhhoa.gov.vn", newName: "Thanh Hóa", adminCenter: "Thanh Hóa" },
       "Nghệ An": { region: "Bắc Trung Bộ", domain: "https://nghean.gov.vn", newName: "Nghệ An", adminCenter: "Nghệ An" },
       "Hà Tĩnh": { region: "Bắc Trung Bộ", domain: "https://hatinh.gov.vn", newName: "Hà Tĩnh", adminCenter: "Hà Tĩnh" },
@@ -175,7 +270,6 @@
       "Đắk Lắk": { region: "Tây Nguyên", domain: "https://daklak.gov.vn", newName: "Đắk Lắk", adminCenter: "Đắk Lắk" },
       "Đắk Nông": { region: "Tây Nguyên", domain: "https://daknong.gov.vn", newName: "Lâm Đồng", adminCenter: "Lâm Đồng" },
       "Lâm Đồng": { region: "Tây Nguyên", domain: "https://lamdong.gov.vn", newName: "Lâm Đồng", adminCenter: "Lâm Đồng" },
-      // Miền Nam
       "TP. Hồ Chí Minh": { region: "Đông Nam Bộ", domain: "https://hochiminhcity.gov.vn", newName: "Hồ Chí Minh", adminCenter: "Hồ Chí Minh" },
       "Bà Rịa - Vũng Tàu": { region: "Đông Nam Bộ", domain: "https://baria-vungtau.gov.vn", newName: "Hồ Chí Minh", adminCenter: "Hồ Chí Minh" },
       "Bình Dương": { region: "Đông Nam Bộ", domain: "https://binhduong.gov.vn", newName: "Hồ Chí Minh", adminCenter: "Hồ Chí Minh" },
@@ -197,90 +291,86 @@
       "Vĩnh Long": { region: "Đồng Bằng Sông Cửu Long", domain: "https://vinhlong.gov.vn", newName: "Vĩnh Long", adminCenter: "Vĩnh Long" }
     };
 
-  function searchProvince() {
-  const input = document.getElementById("provinceInput").value.trim().toLowerCase();
-  const result = document.getElementById("result");
-  const region = document.getElementById("region");
-  const domain = document.getElementById("domain");
-  const newName = document.getElementById("newName");
-  const adminCenter = document.getElementById("adminCenter");
+    function searchProvince() {
+      const input = document.getElementById("provinceInput").value.trim().toLowerCase();
+      const result = document.getElementById("result");
+      const region = document.getElementById("region");
+      const domain = document.getElementById("domain");
+      const newName = document.getElementById("newName");
+      const adminCenter = document.getElementById("adminCenter");
 
-  // Nếu ô nhập rỗng, ẩn kết quả
-  if (input === "") {
-    result.style.display = "none";
-    return;
-  }
+      if (input === "") {
+        result.style.display = "none";
+        return;
+      }
 
-  for (let province in provinces) {
-    if (province.toLowerCase().includes(input)) {
-      region.textContent = provinces[province].region;
-      domain.href = provinces[province].domain;
-      domain.textContent = provinces[province].domain;
-      newName.textContent = provinces[province].newName;
-      adminCenter.textContent = provinces[province].adminCenter;
-      result.style.display = "block";
-      return;
+      for (let province in provinces) {
+        if (province.toLowerCase().includes(input)) {
+          region.textContent = provinces[province].region;
+          domain.href = provinces[province].domain;
+          domain.textContent = provinces[province].domain;
+          newName.textContent = provinces[province].newName;
+          adminCenter.textContent = provinces[province].adminCenter;
+          result.style.display = "block";
+          return;
+        }
+      }
+      result.style.display = "none";
+      alert("Không tìm thấy tỉnh/thành phố!");
     }
-  }
-  result.style.display = "none";
-  alert("Không tìm thấy tỉnh/thành phố!");
-}
 
-function autocomplete() {
-  const input = document.getElementById("provinceInput");
-  const val = input.value.trim().toLowerCase();
-  const suggestions = document.getElementById("suggestions");
-  if (!suggestions) {
-    const div = document.createElement("div");
-    div.id = "suggestions";
-    div.className = "autocomplete-items";
-    input.parentNode.appendChild(div);
-  }
-  const suggestionsDiv = document.getElementById("suggestions");
-  suggestionsDiv.innerHTML = "";
+    function autocomplete() {
+      const input = document.getElementById("provinceInput");
+      const val = input.value.trim().toLowerCase();
+      const suggestions = document.getElementById("suggestions");
+      if (!suggestions) {
+        const div = document.createElement("div");
+        div.id = "suggestions";
+        div.className = "autocomplete-items";
+        input.parentNode.appendChild(div);
+      }
+      const suggestionsDiv = document.getElementById("suggestions");
+      suggestionsDiv.innerHTML = "";
 
-  // Nếu ô nhập rỗng, ẩn gợi ý và kết quả
-  if (val.length === 0) {
-    suggestionsDiv.style.display = "none";
-    document.getElementById("result").style.display = "none";
-    return;
-  }
-
-  const matches = Object.keys(provinces).filter(province => province.toLowerCase().startsWith(val));
-  if (matches.length > 0) {
-    suggestionsDiv.style.display = "block";
-    matches.forEach(match => {
-      const div = document.createElement("div");
-      div.textContent = match;
-      div.addEventListener("click", () => {
-        input.value = match;
+      if (val.length === 0) {
         suggestionsDiv.style.display = "none";
-        searchProvince();
-      });
-      suggestionsDiv.appendChild(div);
+        document.getElementById("result").style.display = "none";
+        return;
+      }
+
+      const matches = Object.keys(provinces).filter(province => province.toLowerCase().startsWith(val));
+      if (matches.length > 0) {
+        suggestionsDiv.style.display = "block";
+        matches.forEach(match => {
+          const div = document.createElement("div");
+          div.textContent = match;
+          div.addEventListener("click", () => {
+            input.value = match;
+            suggestionsDiv.style.display = "none";
+            searchProvince();
+          });
+          suggestionsDiv.appendChild(div);
+        });
+      } else {
+        suggestionsDiv.style.display = "none";
+      }
+    }
+
+    document.getElementById("provinceInput").addEventListener("input", function() {
+      if (this.value.trim() === "") {
+        document.getElementById("result").style.display = "none";
+        document.getElementById("suggestions").style.display = "none";
+      } else {
+        autocomplete();
+      }
     });
-  } else {
-    suggestionsDiv.style.display = "none";
-  }
-}
 
-// Theo dõi sự kiện thay đổi trong ô nhập để ẩn kết quả khi xóa
-document.getElementById("provinceInput").addEventListener("input", function() {
-  if (this.value.trim() === "") {
-    document.getElementById("result").style.display = "none";
-    document.getElementById("suggestions").style.display = "none";
-  } else {
-    autocomplete();
-  }
-});
-
-// Ẩn gợi ý khi nhấp ra ngoài
-document.addEventListener("click", function(e) {
-  const suggestions = document.getElementById("suggestions");
-  if (e.target !== document.getElementById("provinceInput")) {
-    suggestions.style.display = "none";
-  }
-});
+    document.addEventListener("click", function(e) {
+      const suggestions = document.getElementById("suggestions");
+      if (e.target !== document.getElementById("provinceInput")) {
+        suggestions.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
