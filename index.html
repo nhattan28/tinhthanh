@@ -197,71 +197,90 @@
       "Vĩnh Long": { region: "Đồng Bằng Sông Cửu Long", domain: "https://vinhlong.gov.vn", newName: "Vĩnh Long", adminCenter: "Vĩnh Long" }
     };
 
-    function searchProvince() {
-      const input = document.getElementById("provinceInput").value.toLowerCase();
-      const result = document.getElementById("result");
-      const region = document.getElementById("region");
-      const domain = document.getElementById("domain");
-      const newName = document.getElementById("newName");
-      const adminCenter = document.getElementById("adminCenter");
+  function searchProvince() {
+  const input = document.getElementById("provinceInput").value.trim().toLowerCase();
+  const result = document.getElementById("result");
+  const region = document.getElementById("region");
+  const domain = document.getElementById("domain");
+  const newName = document.getElementById("newName");
+  const adminCenter = document.getElementById("adminCenter");
 
-      for (let province in provinces) {
-        if (province.toLowerCase().includes(input)) {
-          region.textContent = provinces[province].region;
-          domain.href = provinces[province].domain;
-          domain.textContent = provinces[province].domain;
-          newName.textContent = provinces[province].newName;
-          adminCenter.textContent = provinces[province].adminCenter;
-          result.style.display = "block";
-          return;
-        }
-      }
-      result.style.display = "none";
-      alert("Không tìm thấy tỉnh/thành phố!");
+  // Nếu ô nhập rỗng, ẩn kết quả
+  if (input === "") {
+    result.style.display = "none";
+    return;
+  }
+
+  for (let province in provinces) {
+    if (province.toLowerCase().includes(input)) {
+      region.textContent = provinces[province].region;
+      domain.href = provinces[province].domain;
+      domain.textContent = provinces[province].domain;
+      newName.textContent = provinces[province].newName;
+      adminCenter.textContent = provinces[province].adminCenter;
+      result.style.display = "block";
+      return;
     }
+  }
+  result.style.display = "none";
+  alert("Không tìm thấy tỉnh/thành phố!");
+}
 
-    function autocomplete() {
-      const input = document.getElementById("provinceInput");
-      const val = input.value.toLowerCase();
-      const suggestions = document.getElementById("suggestions");
-      if (!suggestions) {
-        const div = document.createElement("div");
-        div.id = "suggestions";
-        div.className = "autocomplete-items";
-        input.parentNode.appendChild(div);
-      }
-      const suggestionsDiv = document.getElementById("suggestions");
-      suggestionsDiv.innerHTML = "";
+function autocomplete() {
+  const input = document.getElementById("provinceInput");
+  const val = input.value.trim().toLowerCase();
+  const suggestions = document.getElementById("suggestions");
+  if (!suggestions) {
+    const div = document.createElement("div");
+    div.id = "suggestions";
+    div.className = "autocomplete-items";
+    input.parentNode.appendChild(div);
+  }
+  const suggestionsDiv = document.getElementById("suggestions");
+  suggestionsDiv.innerHTML = "";
 
-      if (val.length > 0) {
-        const matches = Object.keys(provinces).filter(province => province.toLowerCase().startsWith(val));
-        if (matches.length > 0) {
-          suggestionsDiv.style.display = "block";
-          matches.forEach(match => {
-            const div = document.createElement("div");
-            div.textContent = match;
-            div.addEventListener("click", () => {
-              input.value = match;
-              suggestionsDiv.style.display = "none";
-              searchProvince();
-            });
-            suggestionsDiv.appendChild(div);
-          });
-        } else {
-          suggestionsDiv.style.display = "none";
-        }
-      } else {
+  // Nếu ô nhập rỗng, ẩn gợi ý và kết quả
+  if (val.length === 0) {
+    suggestionsDiv.style.display = "none";
+    document.getElementById("result").style.display = "none";
+    return;
+  }
+
+  const matches = Object.keys(provinces).filter(province => province.toLowerCase().startsWith(val));
+  if (matches.length > 0) {
+    suggestionsDiv.style.display = "block";
+    matches.forEach(match => {
+      const div = document.createElement("div");
+      div.textContent = match;
+      div.addEventListener("click", () => {
+        input.value = match;
         suggestionsDiv.style.display = "none";
-      }
-    }
-
-    // Ẩn gợi ý khi nhấp ra ngoài
-    document.addEventListener("click", function(e) {
-      const suggestions = document.getElementById("suggestions");
-      if (e.target !== document.getElementById("provinceInput")) {
-        suggestions.style.display = "none";
-      }
+        searchProvince();
+      });
+      suggestionsDiv.appendChild(div);
     });
+  } else {
+    suggestionsDiv.style.display = "none";
+  }
+}
+
+// Theo dõi sự kiện thay đổi trong ô nhập để ẩn kết quả khi xóa
+document.getElementById("provinceInput").addEventListener("input", function() {
+  if (this.value.trim() === "") {
+    document.getElementById("result").style.display = "none";
+    document.getElementById("suggestions").style.display = "none";
+  } else {
+    autocomplete();
+  }
+});
+
+// Ẩn gợi ý khi nhấp ra ngoài
+document.addEventListener("click", function(e) {
+  const suggestions = document.getElementById("suggestions");
+  if (e.target !== document.getElementById("provinceInput")) {
+    suggestions.style.display = "none";
+  }
+});
   </script>
 </body>
 </html>
